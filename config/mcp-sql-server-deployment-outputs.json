@@ -1,0 +1,21 @@
+{
+  "containerApp": {
+    "name": "sqlmcp-dev-mcp-dev",
+    "url": "https://sqlmcp-dev-mcp-dev.purplecliff-cf0553ec.swedencentral.azurecontainerapps.io",
+    "mcpEndpoint": "https://sqlmcp-dev-mcp-dev.purplecliff-cf0553ec.swedencentral.azurecontainerapps.io/mcp"
+  },
+  "timestamp": "2025-11-07T16:05:11Z",
+  "keyVault": {
+    "name": "kvsqlmcpdesryucsll",
+    "url": "https://kvsqlmcpdesryucsll.vault.azure.net"
+  },
+  "containerRegistry": {
+    "name": "sqlmcpacr",
+    "loginServer": "sqlmcpacr.azurecr.io"
+  },
+  "managedIdentity": {
+    "clientId": "25b46a61-10bc-4f54-bd63-c8fd85d5d36f"
+  },
+  "resourceGroup": "sqlmcp-dev-rg",
+  "location": "swedencentral"
+}

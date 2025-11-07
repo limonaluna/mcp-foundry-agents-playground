@@ -1,0 +1,18 @@
+{
+  "foundry": {
+    "endpoint": "https://mcp-foundry-7xlf5mx5xvxjm.cognitiveservices.azure.com/",
+    "name": "mcp-foundry-7xlf5mx5xvxjm"
+  },
+  "model": {
+    "version": "2024-07-18",
+    "name": "gpt-4o-mini",
+    "capacity": 150
+  },
+  "timestamp": "2025-11-06T13:06:46.8285947+01:00",
+  "resourceGroup": "mcp",
+  "location": "swedencentral",
+  "project": {
+    "endpoint": "https://mcp-foundry-7xlf5mx5xvxjm.services.ai.azure.com/api/projects/mcp-foundry-project",
+    "name": "mcp-foundry-project"
+  }
+}

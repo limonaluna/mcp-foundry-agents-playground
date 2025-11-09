@@ -70,20 +70,56 @@ Build custom tools with complete control over functionality and data.
 
 ## 🎬 Testing Your Agents
 
-Once you've deployed your agents, test them to ensure they're working correctly:
+### **🤖 Interactive Chat Playgrounds**
+
+Experience your agents just like in the Azure AI Foundry UI with interactive chat sessions:
 
 ```bash
-# Test GitHub Agent (External MCP)
 cd test
+
+# Chat with GitHub Agent (External MCP)
+python chat-with-github-agent.py
+# 🗨️ Interactive conversation with GitHub repository search
+# 💬 Type your questions and get real-time responses
+# 🔧 Automatic tool usage detection and approval
+
+# Chat with SQL Agent (Self-Hosted MCP)
+python chat-with-sql-agent.py  
+# 🗨️ Interactive database queries and exploration
+# 💾 Real-time SQL operations with formatted results
+# 🔧 Automatic tool approval for seamless experience
+```
+
+**Chat Commands:**
+- `quit`/`exit`/`bye` - End the chat session
+- `help` - Show example queries for each agent  
+- `clear` - Start a new conversation thread
+
+### **📋 Automated Test Scripts**
+
+Run comprehensive test suites with predefined scenarios for validation:
+
+```bash
+cd test
+
+# Test GitHub Agent (External MCP)
 python test-github-agent.py
-# ✅ Searches Azure REST API specifications
+# ✅ 4 automated scenarios testing repository search capabilities
+# ✅ Tool call detection with response content analysis
 # ✅ No MCP server infrastructure required
 
 # Test SQL Agent (Self-Hosted MCP)  
 python test-sql-agent.py
-# ✅ Queries your Azure SQL Database
+# ✅ 4 automated scenarios testing database operations
+# ✅ Table listing, schema inspection, and data querying
 # ✅ Full control over tools and security
 ```
+
+**Test Script Features:**
+- **Non-interactive** - Runs predefined test scenarios automatically
+- **Comprehensive coverage** - Tests basic capabilities, tool usage, and specific queries
+- **Detailed reporting** - Shows success/failure status and tool call evidence
+- **CI/CD friendly** - Perfect for automated validation pipelines
 
 ### ✅ Success Indicators
 

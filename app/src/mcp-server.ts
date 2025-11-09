@@ -545,7 +545,7 @@ app.get('/', (req: Request, res: Response) => {
       <p>Model Context Protocol Server for Azure SQL Database</p>
       <div style="margin-top: 20px;">
         <span class="badge success"><span class="status-indicator"></span>Service Running</span>
-        <span class="badge info">OAuth 2.0 Enabled</span>
+        <span class="badge info">${AUTH_MODE === 'oauth' ? 'OAuth 2.0' : 'API Key'} Authentication</span>
         <span class="badge warning">Azure AI Foundry Ready</span>
       </div>
     </div>
@@ -563,13 +563,13 @@ app.get('/', (req: Request, res: Response) => {
         <div class="endpoint">
           <span class="method">GET</span>
           <code>${baseUrl}/sse</code>
-          <p style="margin-top: 8px; color: #666;">MCP Server-Sent Events endpoint (requires OAuth authentication)</p>
+          <p style="margin-top: 8px; color: #666;">MCP Server-Sent Events endpoint (requires ${AUTH_MODE === 'oauth' ? 'OAuth' : 'API key'} authentication)</p>
         </div>
 
         <div class="endpoint">
           <span class="method post">POST</span>
           <code>${baseUrl}/message</code>
-          <p style="margin-top: 8px; color: #666;">MCP message endpoint (requires OAuth authentication)</p>
+          <p style="margin-top: 8px; color: #666;">MCP message endpoint (requires ${AUTH_MODE === 'oauth' ? 'OAuth' : 'API key'} authentication)</p>
         </div>
       </div>
 
@@ -602,11 +602,11 @@ app.get('/', (req: Request, res: Response) => {
       <div class="section">
         <h2>🔐 Authentication</h2>
         <p style="color: #666; margin-bottom: 15px;">
-          This server uses <strong>OAuth 2.0</strong> authentication with Azure Entra ID. 
+          This server uses <strong>${AUTH_MODE === 'oauth' ? 'OAuth 2.0 authentication with Azure Entra ID' : 'API key authentication'}. 
           Azure AI Foundry handles authentication automatically.
         </p>
         <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #ff8c00;">
-          <strong>⚠️ Note:</strong> Direct browser access to MCP endpoints will fail without proper OAuth tokens. 
+          <strong>⚠️ Note:</strong> Direct browser access to MCP endpoints will fail without proper ${AUTH_MODE === 'oauth' ? 'OAuth tokens' : 'API key headers'}. 
           Use this server through Azure AI Foundry or an MCP-compatible client.
         </div>
       </div>

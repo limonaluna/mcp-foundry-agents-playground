@@ -201,6 +201,11 @@ Write-Host "     • Managed Identity" -ForegroundColor Gray
 Write-Host "     • Container App (MCP server)" -ForegroundColor Gray
 Write-Host ""
 
+# Get current user object ID for Key Vault access
+Write-Host "   Getting current user object ID for Key Vault access..." -ForegroundColor Gray
+$CURRENT_USER_ID = az ad signed-in-user show --query "id" -o tsv
+Write-Host "   Current user ID: $CURRENT_USER_ID" -ForegroundColor Gray
+
 $deployment = az deployment group create `
     --resource-group $RESOURCE_GROUP `
     --template-file "mcp-sql-server.bicep" `
@@ -216,6 +221,7 @@ $deployment = az deployment group create `
     --parameters memory=$MEMORY `
     --parameters minReplicas=$MIN_REPLICAS `
     --parameters maxReplicas=$MAX_REPLICAS `
+    --parameters currentUserObjectId=$CURRENT_USER_ID `
     --output json | ConvertFrom-Json
 
 if ($LASTEXITCODE -ne 0) {
@@ -227,6 +233,7 @@ $CONTAINER_APP_URL = $deployment.properties.outputs.containerAppUrl.value
 $CONTAINER_APP_NAME = $deployment.properties.outputs.containerAppName.value
 $KEY_VAULT_NAME = $deployment.properties.outputs.keyVaultName.value
 $MANAGED_IDENTITY_ID = $deployment.properties.outputs.managedIdentityClientId.value
+$MANAGED_IDENTITY_NAME = $deployment.properties.outputs.managedIdentityName.value
 
 Write-Host "   ✓ Infrastructure deployed successfully!" -ForegroundColor Green
 Write-Host ""
@@ -254,6 +261,7 @@ Write-Host "Container App URL:    $CONTAINER_APP_URL" -ForegroundColor White
 Write-Host "Container App Name:   $CONTAINER_APP_NAME" -ForegroundColor White
 Write-Host "Key Vault Name:       $KEY_VAULT_NAME" -ForegroundColor White
 Write-Host "Managed Identity ID:  $MANAGED_IDENTITY_ID" -ForegroundColor White
+Write-Host "Managed Identity Name: $MANAGED_IDENTITY_NAME" -ForegroundColor White
 Write-Host "MCP Endpoint:         $CONTAINER_APP_URL/mcp" -ForegroundColor White
 Write-Host "======================================================================" -ForegroundColor Gray
 Write-Host ""
@@ -277,6 +285,7 @@ $deploymentOutputs = @{
     }
     managedIdentity = @{
         clientId = $MANAGED_IDENTITY_ID
+        name = $MANAGED_IDENTITY_NAME
     }
     containerRegistry = @{
         name = $ACR_NAME

@@ -1,27 +1,32 @@
--- Grant Managed Identity access to database
--- Run this as an Azure AD admin user
+-- Grant MCP Managed Identity access to SQL Database
+-- 
+-- INSTRUCTIONS:
+-- 1. Replace <MANAGED_IDENTITY_NAME> below with the actual name from your deployment
+-- 2. Connect to your SQL database and run this script
+-- 3. Use Azure Portal Query Editor, SSMS, or Azure Data Studio
+-- 4. Make sure to login with Azure AD authentication
+--
+-- The managed identity name is shown in the deployment output and saved in:
+-- config/mcp-sql-server-deployment-outputs.json
+--
+-- Example: If your managed identity name is "sqlmcp-dev-mcp-abcd1234", replace all instances below
 
-USE [contoso];
-GO
+-- Create database user for the managed identity
+CREATE USER [<MANAGED_IDENTITY_NAME>] FROM EXTERNAL PROVIDER;
 
--- Create user for managed identity
-CREATE USER [mssql-mcp-id-7xlf5mx5xvxjm] FROM EXTERNAL PROVIDER;
-GO
+-- Grant read permissions
+ALTER ROLE db_datareader ADD MEMBER [<MANAGED_IDENTITY_NAME>];
 
--- Grant database roles
-ALTER ROLE db_datareader ADD MEMBER [mssql-mcp-id-7xlf5mx5xvxjm];
-ALTER ROLE db_datawriter ADD MEMBER [mssql-mcp-id-7xlf5mx5xvxjm];
-ALTER ROLE db_ddladmin ADD MEMBER [mssql-mcp-id-7xlf5mx5xvxjm];
-GO
+-- Grant write permissions
+ALTER ROLE db_datawriter ADD MEMBER [<MANAGED_IDENTITY_NAME>];
 
--- Verify permissions
+-- Grant DDL permissions (for creating/modifying objects)
+ALTER ROLE db_ddladmin ADD MEMBER [<MANAGED_IDENTITY_NAME>];
+
+-- Verify the user was created
 SELECT 
-    dp.name AS UserName,
-    dp.type_desc AS UserType,
-    r.name AS RoleName
-FROM sys.database_principals dp
-LEFT JOIN sys.database_role_members drm ON dp.principal_id = drm.member_principal_id
-LEFT JOIN sys.database_principals r ON drm.role_principal_id = r.principal_id
-WHERE dp.name = 'mssql-mcp-id-7xlf5mx5xvxjm'
-ORDER BY dp.name, r.name;
-GO
+    name AS UserName,
+    type_desc AS UserType,
+    authentication_type_desc AS AuthType
+FROM sys.database_principals
+WHERE name = '<MANAGED_IDENTITY_NAME>';

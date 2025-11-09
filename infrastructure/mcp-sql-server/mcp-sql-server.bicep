@@ -45,6 +45,9 @@ param minReplicas int = 1
 @description('Maximum replicas')
 param maxReplicas int = 3
 
+@description('Current user object ID for Key Vault access (optional)')
+param currentUserObjectId string = ''
+
 // Generate unique names
 var uniqueSuffix = uniqueString(resourceGroup().id)
 var keyVaultName = 'kv${take(replace(resourcePrefix, '-', ''), 8)}${take(uniqueSuffix, 8)}'  // Max 24 chars
@@ -114,6 +117,17 @@ resource keyVaultSecretsUser 'Microsoft.Authorization/roleAssignments@2022-04-01
   }
 }
 
+// Grant current user Key Vault Secrets User role (for agent deployment)
+resource currentUserKeyVaultAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(currentUserObjectId)) {
+  name: guid(keyVault.id, currentUserObjectId, 'CurrentUserSecretsUser')
+  scope: keyVault
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6') // Key Vault Secrets User
+    principalId: currentUserObjectId
+    principalType: 'User'
+  }
+}
+
 // Get reference to existing ACR
 resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: acrName
@@ -138,7 +152,7 @@ resource acrPullRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 // }
 
 // Note: SQL permissions are granted manually via SQL commands
-// See GETTING_STARTED.md Step 4 for instructions
+// See docs/SELF_HOSTED_MCP.md for SQL grant instructions
 
 // Container Apps Environment
 resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' = {
@@ -275,3 +289,4 @@ output containerAppName string = containerApp.name
 output keyVaultName string = keyVault.name
 output managedIdentityClientId string = managedIdentity.properties.clientId
 output managedIdentityPrincipalId string = managedIdentity.properties.principalId
+output managedIdentityName string = managedIdentity.name

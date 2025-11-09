@@ -69,17 +69,49 @@ $FoundryRoot = Split-Path (Split-Path $ScriptDir -Parent) -Parent  # Go up two l
 $ConfigDir = Join-Path $FoundryRoot "config"
 $ConfigFile = Join-Path $ConfigDir "config.json"
 
+# Load .env file from Foundry root
+$envFile = Join-Path $FoundryRoot ".env"
+$envVars = @{}
+if (Test-Path $envFile) {
+    Write-Host "Loading configuration from .env file..." -ForegroundColor Gray
+    Get-Content $envFile | ForEach-Object {
+        $line = $_.Trim()
+        if ($line -and -not $line.StartsWith('#')) {
+            if ($line -match '^([^=]+)=(.*)$') {
+                $key = $matches[1].Trim()
+                $value = $matches[2].Trim()
+                $envVars[$key] = $value
+                # Set environment variable for this session
+                [System.Environment]::SetEnvironmentVariable($key, $value, [System.EnvironmentVariableTarget]::Process)
+            }
+        }
+    }
+    Write-Host "✓ Configuration loaded from .env" -ForegroundColor Green
+} else {
+    Write-Host "No .env file found at: $envFile" -ForegroundColor Yellow
+}
+
 # Load configuration if it exists
 $config = $null
 if (Test-Path $ConfigFile) {
     $config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
 }
 
-# Apply defaults with priority: Script param > Env var > Config file > Hardcoded default
+# Apply defaults with priority: Script param > Env var > Config file > PROJECT_NAME logic > Hardcoded default
 if (-not $ResourceGroup) {
-    $ResourceGroup = if ($env:RESOURCE_GROUP) { $env:RESOURCE_GROUP }
-                     elseif ($config -and $config.infrastructure.resourceGroup) { $config.infrastructure.resourceGroup }
-                     else { "mcp" }
+    # Check for PROJECT_NAME-based resource group (Scenario 1: Start from Scratch)
+    $PROJECT_NAME = $env:PROJECT_NAME
+    $ENVIRONMENT_NAME = if ($env:NODE_ENV) { $env:NODE_ENV } else { "dev" }
+    
+    if ($PROJECT_NAME) {
+        $ResourceGroup = "$PROJECT_NAME-$ENVIRONMENT_NAME-rg"
+        Write-Host "Using PROJECT_NAME-based resource group: $ResourceGroup" -ForegroundColor Yellow
+    } else {
+        # Scenario 2: Bring Your Own Resources or legacy behavior
+        $ResourceGroup = if ($env:RESOURCE_GROUP) { $env:RESOURCE_GROUP }
+                         elseif ($config -and $config.infrastructure.resourceGroup) { $config.infrastructure.resourceGroup }
+                         else { "mcp" }
+    }
 }
 
 if (-not $Location) {
@@ -89,9 +121,14 @@ if (-not $Location) {
 }
 
 if (-not $FoundryPrefix) {
-    $FoundryPrefix = if ($env:FOUNDRY_PREFIX) { $env:FOUNDRY_PREFIX }
-                     elseif ($config -and $config.infrastructure.foundry.prefix) { $config.infrastructure.foundry.prefix }
-                     else { "mcp-foundry" }
+    # Use PROJECT_NAME-based prefix if available
+    if ($PROJECT_NAME) {
+        $FoundryPrefix = "$PROJECT_NAME-foundry"
+    } else {
+        $FoundryPrefix = if ($env:FOUNDRY_PREFIX) { $env:FOUNDRY_PREFIX }
+                         elseif ($config -and $config.infrastructure.foundry.prefix) { $config.infrastructure.foundry.prefix }
+                         else { "mcp-foundry" }
+    }
 }
 
 if (-not $ModelName) {

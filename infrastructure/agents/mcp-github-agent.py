@@ -16,7 +16,8 @@ from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import McpTool
 
 # Load centralized configuration
-CONFIG_FILE = Path(__file__).parent.parent.parent / "config.json"
+CONFIG_DIR = Path(__file__).parent.parent.parent / "config"
+CONFIG_FILE = CONFIG_DIR / "config.json"
 
 
 def load_config():
@@ -24,7 +25,7 @@ def load_config():
     if not CONFIG_FILE.exists():
         raise FileNotFoundError(
             f"Configuration file not found: {CONFIG_FILE}\n"
-            "Please ensure deploy/config.json exists with proper configuration."
+            "Please ensure config/config.json exists with proper configuration."
         )
     
     with open(CONFIG_FILE) as f:

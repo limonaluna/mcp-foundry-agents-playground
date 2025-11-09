@@ -58,21 +58,11 @@ Build custom tools with complete control over functionality and data.
 - **Trade-off:** Requires infrastructure deployment and maintenance
 
 
-
-## 📊 Comparison
-
-| Aspect | External MCP | Self-Hosted MCP |
-|--------|-------------|-----------------|
-| **Setup Time** | < 15 minutes | 15-30 minutes |
-| **Azure Infrastructure** | Azure AI Foundry + Model | Azure AI Foundry + Model + SQL Server + Container Apps + Key Vault |
-| **Security** | No authentication required | API Key authentication |
-| **Playground Testing** | ❌ Limited UI support for tool approvals | ❌ SDK only (API auth limitation) |
-
 ## 🎬 Testing Your Agents
 
 ### **🤖 Interactive Chat Playgrounds**
+Azure AI Foundry UI still has limitations with regards to playground experience for MCP-enabled agents. Therefore, this repository contains interactive chat sessions:
 
-Experience your agents just like in the Azure AI Foundry UI with interactive chat sessions:
 
 ```bash
 cd test
@@ -97,7 +87,7 @@ python chat-with-sql-agent.py
 
 ### **📋 Automated Test Scripts**
 
-Run comprehensive test suites with predefined scenarios for validation:
+Run non-interactive test scripts with predefined scenarios for validation:
 
 ```bash
 cd test
@@ -138,38 +128,26 @@ for Azure REST API specifications (Azure/azure-rest-api-specs).
 
 ### 🔧 Troubleshooting
 
-**"RequiresAction" Error - UI Limitation:**
+Having issues with your MCP agents? Check our comprehensive troubleshooting guide:
 
-Even after configuring `require_approval="never"`, the Azure AI Foundry UI still requires manual approval for MCP tool calls.
+**📋 [Troubleshooting Guide](docs/TROUBLESHOOTING.md)**
 
-**❌ Current UI Limitation:**
-- The Azure AI Foundry playground UI overrides agent-level approval settings
-- Tool calls always go into "RequiresAction" status in the UI
-- This appears to be a current limitation of the web interface
+**Common Issues Covered:**
+- ❌ "RequiresAction" UI limitations and workarounds
+- 🔧 Tool call timeouts and connectivity issues  
+- 🗄️ SQL agent connection problems
+- 🔐 Authentication and Key Vault access issues
+- ⚙️ Configuration file problems
 
-**✅ Working Solutions:**
-
-**Option 1 - Use the Test Script (Recommended):**
-```bash
-cd test
-python test-github-agent.py
-```
-- Bypasses UI limitations entirely
-- Shows actual MCP tool functionality and results
-- Configured with `require_approval="never"` for seamless operation
-
-**Option 2 - Use VS Code Extension:**
-- Install the Azure AI Foundry VS Code extension
-- May provide better MCP tool approval experience
-- See [VS Code MCP integration guide](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/vs-code-agents-mcp)
-
-**Tool Call Timeouts:**
-- External MCP servers may have rate limits
-- Wait a few seconds between requests
-- Some external services may be temporarily unavailable
+**Quick Solutions:**
+- **Use the interactive chat scripts** (`chat-with-*-agent.py`) - they bypass most UI limitations
+- **Run the test scripts** (`test-*-agent.py`) - perfect for validation  
+- **Check network connectivity** - especially for SQL agents (IP restrictions)
 
 ## 🔗 Additional Resources
 
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[MCP Server Guide](docs/MCP_SERVER.md)** - TypeScript MCP server implementation details
 - **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and config files
 - **[Local Development](local/README.md)** - Docker-based local testing  
 - **[Node.js Version](../Node/README.md)** - VS Code MCP integration (stdio)

@@ -41,43 +41,21 @@ graph TB
 
 ## 🚀 Getting Started
 
-### **Step 1: Choose Your Path**
+Choose your implementation path based on your needs:
 
-**🟢 New to MCP? Start Here:**
-- **[External MCP Guide](docs/EXTERNAL_MCP.md)** - Connect to GitHub APIs (15 minutes)
-- No infrastructure to deploy, just configure Azure AI Foundry
-
-**🔵 Need Custom Tools? Go Here:**
-- **[Self-Hosted MCP Guide](docs/SELF_HOSTED_MCP.md)** - Deploy your own SQL MCP server (30 minutes)
-- Full control over tools, data, and security
-
-### **Step 2: Set Up Your Environment**
-- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and config files
-- **[Local Development](local/README.md)** - Docker-based testing (optional)
-
-### **Step 3: Deploy and Test**
-Follow the guide for your chosen approach, then test your agents!
-
-## 🎯 Implementation Options
-
-### **🟢 Option 1: External MCP (Easier)**
+### **🟢 External MCP** - Quick & Easy (< 15 minutes)
 Perfect for getting started or integrating with existing services.
+- **Guide:** [External MCP Setup](docs/EXTERNAL_MCP.md)
+- **Infrastructure:** Azure AI Foundry + Model deployment only
+- **Benefits:** Connect to GitHub APIs, web services, no server deployment
+- **Limitation:** Restricted to available external services
 
-**Features:**
-- ✅ No MCP server infrastructure to deploy
-- ✅ Requires Azure AI Foundry + model deployment
-- ✅ Quick setup (< 15 minutes)
-- ✅ Connect to GitHub, APIs, web services
-- ⚠️ Limited to available external services
-
-### **🔵 Option 2: Self-Hosted MCP (Most Powerful)**  
-Build custom tools with full control over functionality and data.
-
-**Features:**
-- ✅ Custom business logic and data access
-- ✅ Enterprise security and compliance
-- ✅ Unlimited tool capabilities
-- ⚠️ Requires infrastructure deployment
+### **🔵 Self-Hosted MCP** - Full Control (15-30 minutes)  
+Build custom tools with complete control over functionality and data.
+- **Guide:** [Self-Hosted MCP Setup](docs/SELF_HOSTED_MCP.md)
+- **Infrastructure:** Azure AI Foundry + Model + SQL Server + Container Apps + Key Vault
+- **Benefits:** Custom business logic, enterprise security, unlimited capabilities
+- **Trade-off:** Requires infrastructure deployment and maintenance
 
 
 
@@ -107,14 +85,9 @@ python test-sql-agent.py
 # ✅ Full control over tools and security
 ```
 
-## 🔗 Related Resources
+## 🔗 Additional Resources
 
-### **Documentation**
-- **[External MCP Guide](docs/EXTERNAL_MCP.md)** - Third-party MCP integration (start here!)
-- **[Self-Hosted Guide](docs/SELF_HOSTED_MCP.md)** - Custom MCP server deployment
-
-### **Implementation Details**
-- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment setup and files
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and config files
 - **[Local Development](local/README.md)** - Docker-based local testing  
 - **[Node.js Version](../Node/README.md)** - VS Code MCP integration (stdio)
 

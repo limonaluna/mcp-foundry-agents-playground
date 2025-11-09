@@ -39,12 +39,31 @@ graph TB
     MCPS -->|Azure AD Auth| SQL
 ```
 
-## 🎯 Choose Your Implementation
+## 🚀 Getting Started
 
-### **🟢 Option 1: External MCP (Easiest)**
+### **Step 1: Choose Your Path**
+
+**🟢 New to MCP? Start Here:**
+- **[External MCP Guide](docs/EXTERNAL_MCP.md)** - Connect to GitHub APIs (15 minutes)
+- No infrastructure to deploy, just configure Azure AI Foundry
+
+**🔵 Need Custom Tools? Go Here:**
+- **[Self-Hosted MCP Guide](docs/SELF_HOSTED_MCP.md)** - Deploy your own SQL MCP server (30 minutes)
+- Full control over tools, data, and security
+
+### **Step 2: Set Up Your Environment**
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and config files
+- **[Local Development](local/README.md)** - Docker-based testing (optional)
+
+### **Step 3: Deploy and Test**
+Follow the guide for your chosen approach, then test your agents!
+
+## 🎯 Implementation Options
+
+### **🟢 Option 1: External MCP (Easier)**
 Perfect for getting started or integrating with existing services.
 
-**📖 [External MCP Guide](docs/EXTERNAL_MCP.md)**
+**Features:**
 - ✅ No MCP server infrastructure to deploy
 - ✅ Requires Azure AI Foundry + model deployment
 - ✅ Quick setup (< 15 minutes)
@@ -54,15 +73,26 @@ Perfect for getting started or integrating with existing services.
 ### **🔵 Option 2: Self-Hosted MCP (Most Powerful)**  
 Build custom tools with full control over functionality and data.
 
-**📖 [Self-Hosted MCP Guide](docs/SELF_HOSTED_MCP.md)**
+**Features:**
 - ✅ Custom business logic and data access
 - ✅ Enterprise security and compliance
 - ✅ Unlimited tool capabilities
 - ⚠️ Requires infrastructure deployment
 
-## 🎬 Demo: Multi-Agent Assistant
 
-See both patterns in action:
+
+## 📊 Comparison
+
+| Aspect | External MCP | Self-Hosted MCP |
+|--------|-------------|-----------------|
+| **Setup Time** | < 15 minutes | 15-30 minutes |
+| **Azure Infrastructure** | Azure AI Foundry + Model | Azure AI Foundry + Model + SQL Server + Container Apps + Key Vault |
+| **Security** | No authentication required | API Key authentication |
+| **Playground Testing** | ✅ Inside Azure AI Foundry Agent Service UI | ❌ SDK only (API auth limitation) |
+
+## 🎬 Testing Your Agents
+
+Once you've deployed your agents, test them to ensure they're working correctly:
 
 ```bash
 # Test GitHub Agent (External MCP)
@@ -77,37 +107,6 @@ python test-sql-agent.py
 # ✅ Full control over tools and security
 ```
 
-## 📊 Comparison
-
-| Aspect | External MCP | Self-Hosted MCP |
-|--------|-------------|-----------------|
-| **Setup Time** | < 15 minutes | 15-30 minutes |
-| **Azure Infrastructure** | Azure AI Foundry + Model | Azure AI Foundry + Model |
-| **MCP Infrastructure** | None (external service) | Container Apps, Key Vault |
-| **Customization** | Limited to service | Unlimited |
-| **Security** | Service-dependent | Full enterprise control |
-| **Cost** | Service fees only | Azure infrastructure + service |
-| **Maintenance** | Zero | Ongoing updates |
-| **Playground Testing** | ✅ Full support | ❌ SDK only (API auth limitation) |
-| **Use Cases** | Quick integrations, public APIs | Custom logic, sensitive data |
-
-## 🛠️ What's Included
-
-### **Agents**
-- **GitHub Agent** - Search Azure REST API specifications
-- **SQL Agent** - Query and explore Azure SQL databases  
-
-### **Infrastructure**
-- **Container Apps** - Scalable MCP server hosting
-- **Key Vault** - Secure credential management  
-- **Managed Identity** - Zero-credential database access
-- **Azure AI Foundry** - Agent orchestration platform
-
-### **Tools & Testing**
-- **Deployment Scripts** - One-command infrastructure setup
-- **Test Suites** - Comprehensive agent validation
-- **Local Development** - Docker-based local testing
-
 ## 🔗 Related Resources
 
 ### **Documentation**
@@ -121,14 +120,6 @@ python test-sql-agent.py
 
 ---
 
-## 🎉 Success Stories
 
-**"We deployed both external GitHub search and internal database agents in under an hour. Our team can now search Azure specs and query production databases from a single AI assistant."**  
-*- Enterprise Development Team*
-
-**"The external MCP pattern let us prototype agent capabilities quickly, then we built custom tools for our specific business logic with the self-hosted approach."**  
-*- Startup CTO*
-
----
 
 *Built with ❤️ for the Azure AI Community*

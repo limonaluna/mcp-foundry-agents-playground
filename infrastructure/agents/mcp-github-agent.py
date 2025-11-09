@@ -113,9 +113,13 @@ def main():
             for tool in agent_config.get("allowedTools", []):
                 mcp_tool.allow_tool(tool)
             
+            # Configure no approval required for all tools
+            mcp_tool.set_approval_mode("never")
+            
             print(f"✓ MCP tool initialized")
             print(f"  Server: {mcp_tool.server_label} at {mcp_tool.server_url}")
             print(f"  Allowed tools: {mcp_tool.allowed_tools}")
+            print(f"  Approval required: No")
             print()
             
             # Create or update agent
